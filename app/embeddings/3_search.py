@@ -48,34 +48,47 @@ def cosine_similarity(vec1, vec2):
     """Calculate cosine similarity between two vectors"""
     return np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
 
-def execute_search(query:str, documents:List[str]) -> List[SearchResult]:
+
+def execute_search(query: str, documents: List[str]) -> List[SearchResult]:
     """
-    Runs a vector search. More specifically, it compares the vector
-    embeddings of the query to the vector embeddings of each 
-    document. It returns a sorted list of results with the best result
-    in the first position.
+    Search documents using embedding similarity.
     """
-    
-    # 1 - Prepare search result list
-    #     You can use these objects to store the information you need to 
-    #     perform the search and return a list of results. For instance,
-    #     you can store the embeddings and the cosine similarity in each
-    #     result object.
-    results:List[SearchResult] = [SearchResult(text=d) for d in documents]
-    
-    # 2 - TODO Set up the model
-    
-    # 3 - TODO Calculate query and document embeddings
-    
-    # 4 - TODO Calculate similarities between the query and each document
-    
-    # 5 - Sort search results by similarity and assign its rank
-    results.sort(key=lambda r:r.similarity, reverse=True)
-    for idx,res in enumerate(results):
-        res.rank = idx+1
-    
-    # Return results    
+
+    results: List[SearchResult] = [
+        SearchResult(text=d) for d in documents
+    ]
+
+    # Step 1: Set up embedding model
+    tokenizer, model = setup_embedding_model()
+
+    # Step 2: Generate query embedding
+    query_embedding = get_embedding(query, tokenizer, model)
+
+    # Step 3: Generate document embeddings
+    for result in results:
+        document_embedding = get_embedding(
+            result.text, tokenizer, model
+        )
+
+        result.embeddings = document_embedding.tolist()
+
+        # Step 4: Calculate cosine similarity
+        result.similarity = float(
+            cosine_similarity(query_embedding, document_embedding)
+        )
+
+    # Step 5: Sort by similarity
+    results.sort(
+        key=lambda r: r.similarity,
+        reverse=True
+    )
+
+    # Step 6: Assign rankings
+    for idx, result in enumerate(results):
+        result.rank = idx + 1
+
     return results
+
 
 def semantic_search(documents:List[str]) -> None:
     """

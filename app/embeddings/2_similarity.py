@@ -93,7 +93,8 @@ def similarity_demo(comparisons:List[Tuple[str,str]]):
         print(f'Text 1: "{text1}"')
         print(f'Text 2: "{text2}"')
         print(f'Similarity: [{bar}] {similarity:.3f} {emoji} {level}')
-        print(f'Why? {explanation}')
+        #print(f'Why? {explanation}')
+        print(f"Interpretation: {level}")
         print()
         
     print("=" * 70)
@@ -109,16 +110,38 @@ if __name__ == "__main__":
     """
     
     # Demo comparisons
-    comparisons:List[Tuple[str,str]] = [
-        ("I love pizza", "Pizza is my favorite food"),
-        ("I love pizza", "I enjoy eating pizza"),
-        ("I love pizza", "I hate broccoli"),
-        ("I love pizza", "The sky is blue"),
-        ("The cat sleeps", "The dog rests"),
-        ("Paris is beautiful", "Paris is gorgeous"),
-        ("He runs fast", "She sprints quickly"),
-        ("Python is a programming language", "Python is a type of snake"),
+    
+    comparisons: List[Tuple[str, str]] = [
+        (
+            "I love programming in Python",
+            "Python coding is my favorite activity"
+        ),
+        (
+            "The dog is sleeping",
+            "A puppy is resting"
+        ),
+        (
+            "The weather is beautiful today",
+            "It is sunny outside"
+        ),
+        (
+            "Artificial intelligence is advancing",
+            "Machine learning technology is improving"
+        ),
+        (
+            "I enjoy eating pizza",
+            "The computer needs a software update"
+        ),
+        (
+            "Python is a programming language",
+            "Python is a type of snake"
+        ),
+        (
+            "The car is moving quickly",
+            "The automobile is traveling fast"
+        ),
     ]
+
     
     
     similarity_demo(comparisons)

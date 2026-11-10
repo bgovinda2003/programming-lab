@@ -45,15 +45,25 @@ def generate_token(prompt:str, *, temperature:float=0.8) -> str:
         return new_text
     
     
-def complete_sentence(prompt:str, *, max_tokens:int=40):
+
+def complete_sentence(prompt: str, *, max_tokens: int = 40):
     """
-    Generate a sentence using token generation.
+    Complete a sentence by generating tokens.
     """
-    
-    # TODO Use looping to continue the sentence max_tokens times
-    
-    # Print the complete output
-    print("\n\n" + "=" * 70 + "\n" +prompt + "\n" + ("=" * 70) + "\n\n")
+    sentence = prompt
+
+    for _ in range(max_tokens):
+        next_token = generate_token(sentence)
+        sentence += next_token
+
+        # Stop when a sentence-ending period is generated
+        if "." in next_token:
+            break
+
+    print("\n" + "=" * 70)
+    print(sentence)
+    print("=" * 70 + "\n")
+
     
 
 if __name__ == "__main__":

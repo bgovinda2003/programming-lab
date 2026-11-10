@@ -57,17 +57,83 @@ def complete_sentence(prompt:str, *, max_tokens:int=40, temperature:float=0.8):
             time.sleep(random.uniform(0.3, 0.7))
             
             # We stop at the end of a sentence.
-            if new_text.strip().endswith('.'):
-                break
+            #if new_text.strip().endswith('.'):
+                #break
     
     print("\n\nGeneration complete!")
 
 
+
 if __name__ == "__main__":
-    
-    """
-    First, run this module. But then modify the beginning to
-    see what it does.
-    """
-    prompt = input("What is the beginning of your sentence? ")
-    complete_sentence(prompt, temperature=0.8, max_tokens=40)
+
+    print("\nENPM611 Token Generation Experiments")
+    print("1 - Exercise 2: Different prompts")
+    print("2 - Exercise 3: Temperature comparison")
+    print("3 - Exercise 4: Three runs per temperature")
+    print("4 - Exercise 6: Maximum token comparison")
+    print("5 - Custom experiment")
+
+    choice = input("\nChoose experiment (1-5): ").strip()
+
+    prompt = "The future of artificial intelligence is"
+
+    if choice == "1":
+        prompts = [
+            "The future of artificial intelligence is",
+            "It's raining outside. I should bring an",
+            "Machine learning is useful because"
+        ]
+
+        for p in prompts:
+            complete_sentence(
+                p,
+                temperature=0.8,
+                max_tokens=40
+            )
+
+    elif choice == "2":
+        for temp in [0.2, 0.7, 1.5]:
+            print(f"\nTemperature: {temp}")
+            complete_sentence(
+                prompt,
+                temperature=temp,
+                max_tokens=40
+            )
+
+    elif choice == "3":
+        for temp in [0.2, 0.7, 1.5]:
+            for run in range(1, 4):
+                print(
+                    f"\nTemperature: {temp}, Run: {run}"
+                )
+                complete_sentence(
+                    prompt,
+                    temperature=temp,
+                    max_tokens=40
+                )
+
+    elif choice == "4":
+        for limit in [5, 10, 30]:
+            print(f"\nMax tokens: {limit}")
+            complete_sentence(
+                prompt,
+                temperature=0.8,
+                max_tokens=limit
+            )
+
+    elif choice == "5":
+        custom_prompt = input("Enter prompt: ")
+        temp = float(input("Temperature (0.2-2.0): "))
+        limit = int(input("Maximum tokens: "))
+
+        if not 0.2 <= temp <= 2.0 or limit <= 0:
+            raise ValueError("Invalid temperature or token limit")
+
+        complete_sentence(
+            custom_prompt,
+            temperature=temp,
+            max_tokens=limit
+        )
+
+    else:
+        print("Invalid experiment")

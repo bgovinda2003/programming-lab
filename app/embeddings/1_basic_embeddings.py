@@ -53,15 +53,50 @@ def similarity_demo(text1:str, text2:str):
     
     # Calculate vector for each text separately
     emb1 = get_embedding(text1, tokenizer, model)
-    print(f"\nEmbedding vector for `{text1}`: {str(emb1[:4])[:45].replace("\n","")+"..."}")
+    #print(f"\nEmbedding vector for `{text1}`: {str(emb1[:4])[:45].replace("\n","")+"..."}")
+    print(f"\nEmbedding vector for '{text1}': {emb1[:4]}...")
     emb2 = get_embedding(text2, tokenizer, model)
-    print(f"\nEmbedding vector for `{text2}`: {str(emb2[:4])[:45].replace("\n","")+"..."}")
+    #print(f"\nEmbedding vector for `{text2}`: {str(emb2[:4])[:45].replace("\n","")+"..."}")
+    print(f"\nEmbedding vector for '{text2}': {emb2[:4]}...")
     
     # Now calculate the similarity between the two vectors
     similarity = cosine_similarity(emb1, emb2)
     print(f"\nSimilarity is {similarity:.2f}\n\n")
 
+
 if __name__ == "__main__":
-    text1 = "I love melted cheese and pepperoni"
-    text2 = "Pizza is my favorite food"
-    similarity_demo(text1, text2)
+
+    experiments = [
+        # Exercise 10: Similar and unrelated sentences
+        (
+            "I enjoy learning Python",
+            "Python programming is interesting"
+        ),
+        (
+            "I enjoy learning Python",
+            "The weather is sunny today"
+        ),
+
+        # Exercise 11: Related animal concepts
+        ("dog", "cat"),
+
+        # Exercise 12: Category relationship
+        ("Chihuahua", "dog"),
+
+        # Exercise 13: Misspellings and noise
+        (
+            "Machine learning is useful",
+            "Machne lerning is useful"
+        ),
+        (
+            "Artificial intelligence improves technology",
+            "Artificial intelligence [1] improves technology"
+        ),
+    ]
+
+    for index, (text1, text2) in enumerate(experiments, 1):
+        print("\n" + "=" * 60)
+        print(f"Experiment {index}")
+        print("=" * 60)
+
+        similarity_demo(text1, text2)
